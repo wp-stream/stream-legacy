@@ -70,6 +70,7 @@ class WP_Stream {
 		define( 'WP_STREAM_DIR', plugin_dir_path( __FILE__ ) );
 		define( 'WP_STREAM_URL', plugin_dir_url( __FILE__ ) );
 		define( 'WP_STREAM_INC_DIR', WP_STREAM_DIR . 'includes/' );
+		define( 'WP_STREAM_EXTENSIONS_DIR', WP_STREAM_DIR . 'extensions/' );
 
 		// Load filters polyfill
 		require_once WP_STREAM_INC_DIR . 'filter-input.php';
@@ -108,6 +109,11 @@ class WP_Stream {
 		// Load query class
 		require_once WP_STREAM_INC_DIR . 'query.php';
 		require_once WP_STREAM_INC_DIR . 'context-query.php';
+
+		// Load extensions
+		foreach ( glob( WP_STREAM_EXTENSIONS_DIR . '*' ) as $extension ) {
+			require_once sprintf( '%s/class-wp-stream-%s.php', $extension, basename( $extension ) );
+		}
 
 		// Load support for feeds
 		require_once WP_STREAM_INC_DIR . 'feeds.php';
